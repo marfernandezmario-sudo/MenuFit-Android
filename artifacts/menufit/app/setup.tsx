@@ -31,7 +31,7 @@ export default function SetupScreen() {
   const steps = useMemo(() => ['Tu casa', 'Tu objetivo', 'Tus preferencias'], []);
   const finish = () => {
     completeSetup({ people: Math.max(1, Number(people) || 2), days: Math.min(7, Math.max(1, Number(days) || 5)), mealsPerDay: Math.min(4, Math.max(2, Number(meals) || 4)), goal, cookTime, diet, allergies: allergies.split(',').map((item) => item.trim().toLowerCase()).filter(Boolean), favorites: favorites.split(',').map((item) => item.trim().toLowerCase()).filter(Boolean), pantry: pantry.split(',').map((item) => item.trim().toLowerCase()).filter(Boolean) });
-    router.replace('/(tabs)');
+    router.replace('/home');
   };
   return <View style={[styles.container, { backgroundColor: colors.background, paddingTop: insets.top + 12 }]}>
     <View style={styles.top}><View style={[styles.logo, { backgroundColor: colors.primary }]}><Feather name="heart" size={18} color={colors.primaryForeground} fill={colors.primaryForeground} /></View><Text style={[styles.brand, { color: colors.foreground }]}>MenuFit</Text><Text style={[styles.stepCount, { color: colors.mutedForeground }]}>{step + 1} de 3</Text></View>

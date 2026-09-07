@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
-import { Appearance, ImageSourcePropType } from 'react-native';
+import { Appearance, ImageSourcePropType, Platform } from 'react-native';
 
 export type Goal = 'balanced' | 'protein' | 'weight-loss' | 'maintenance' | 'muscle' | 'custom';
 export type MealType = 'Desayuno' | 'Comida' | 'Merienda' | 'Cena';
@@ -438,7 +438,9 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
   }, []);
 
   useEffect(() => {
-    if (hydrated) Appearance.setColorScheme(preferences.darkMode ? 'dark' : 'light');
+    if (hydrated && Platform.OS !== 'web') {
+      Appearance.setColorScheme(preferences.darkMode ? 'dark' : 'light');
+    }
   }, [hydrated, preferences.darkMode]);
 
   const persist = (next: PersistedState) => {

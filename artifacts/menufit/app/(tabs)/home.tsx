@@ -1,18 +1,16 @@
 import React from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Redirect, router } from 'expo-router';
+import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 import { getGoalLabel, useMenuFit } from '@/context/MenuFitContext';
-import { IconButton, LoadingState, RecipeCard, SectionTitle, StatChip } from '@/components/MenuFitUI';
+import { IconButton, RecipeCard, SectionTitle, StatChip } from '@/components/MenuFitUI';
 
 export default function HomeScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { hydrated, preferences, menu, favoriteRecipes, getRecipe } = useMenuFit();
-  if (!hydrated) return <LoadingState />;
-  if (!preferences.configured) return <Redirect href="/setup" />;
+  const { preferences, menu, favoriteRecipes, getRecipe } = useMenuFit();
   const first = menu[0];
   const progress = menu.length ? `${menu.length} comidas planificadas` : 'Crea tu primer menú';
   return <ScrollView style={{ backgroundColor: colors.background }} contentContainerStyle={[styles.content, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 100 }]} showsVerticalScrollIndicator={false}>
