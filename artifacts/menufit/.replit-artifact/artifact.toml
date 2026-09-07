@@ -1,0 +1,24 @@
+kind = "mobile"
+previewPath = "/"
+title = "MenuFit"
+description = "Aplicación móvil para crear menús personalizados, descubrir recetas, gestionar favoritos y organizar la lista de la compra según las preferencias de cada hogar."
+version = "1.0.0"
+id = "artifacts/menufit"
+router = "expo-domain"
+
+[[services]]
+name = "expo"
+ensurePreviewReachable = "/status"
+paths = [ "/" ]
+localPort = 25436
+
+[services.development]
+run = "pnpm --filter @workspace/menufit run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/menufit", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/menufit", "run", "serve" ]
+
+[services.env]
+PORT = "25436"
+BASE_PATH = "/"

@@ -1,0 +1,421 @@
+Quiero que desarrolles una aplicación completa de planificación de alimentación llamada **MenuFit**.
+
+NO quiero una simple maqueta, demo o página estática. Quiero una aplicación funcional, moderna, intuitiva y preparada para utilizarse realmente.
+
+## 1. OBJETIVO DE LA APLICACIÓN
+
+La aplicación debe crear automáticamente menús personalizados para el número de días que el usuario seleccione, teniendo en cuenta sus preferencias, objetivos, alimentos que quiere evitar, alimentos favoritos, supermercado habitual, tiempo disponible para cocinar y otras condiciones.
+
+El sistema debe intentar crear menús variados, prácticos y coherentes, evitando repetir constantemente las mismas comidas.
+
+## 2. CONFIGURACIÓN INICIAL DEL USUARIO
+
+Al entrar por primera vez, debe aparecer un asistente de configuración.
+
+El usuario podrá indicar:
+
+* Número de personas para las que se prepara el menú.
+* Número de días que quiere planificar: 1-7 días.
+* Número de comidas al día.
+* Objetivo del menú:
+
+  * Alimentación equilibrada.
+  * Alto en proteínas.
+  * Pérdida de peso.
+  * Mantenimiento.
+  * Ganancia de masa muscular.
+  * Personalizado.
+* Tiempo máximo disponible para cocinar:
+
+  * 5-10 minutos.
+  * 10-20 minutos.
+  * 20-30 minutos.
+  * 30-45 minutos.
+  * Más de 45 minutos.
+* Presupuesto aproximado.
+* Supermercado habitual.
+* Alimentos favoritos.
+* Alimentos que no le gustan.
+* Alimentos que quiere excluir.
+* Alergias o intolerancias.
+* Tipo de alimentación o restricciones dietéticas.
+* Ingredientes que ya tiene en casa.
+
+IMPORTANTE: las alergias e intolerancias deben tratarse como restricciones estrictas y nunca se debe incluir deliberadamente un alimento excluido por alergia/intolerancia.
+
+## 3. SUPERMERCADOS
+
+Permitir seleccionar el supermercado habitual.
+
+La aplicación debe poder adaptar las recetas y la lista de la compra a los productos que normalmente se pueden encontrar en ese supermercado.
+
+No inventes precios ni disponibilidad exacta de productos.
+
+Si se muestran precios, deben marcarse como aproximados o proceder de una fuente de datos real.
+
+## 4. GENERADOR DE MENÚS
+
+Crear un sistema inteligente que genere automáticamente el menú.
+
+Debe tener en cuenta TODAS las preferencias configuradas.
+
+Ejemplo:
+
+Si el usuario selecciona:
+
+* 7 días.
+* Alto en proteínas.
+* 30 minutos máximo.
+* No le gusta el pescado.
+* Pollo como favorito.
+* Supermercado determinado.
+
+El sistema debe generar un menú de 7 días que respete esas condiciones.
+
+Debe evitar utilizar exactamente la misma receta repetidamente salvo que el usuario lo permita.
+
+Debe intentar reutilizar ingredientes de manera inteligente para evitar desperdiciar comida y reducir el coste de la compra.
+
+## 5. MENÚ SEMANAL
+
+Mostrar una pantalla visual con los días de la semana.
+
+Ejemplo:
+
+LUNES
+
+* Desayuno
+* Comida
+* Merienda
+* Cena
+
+MARTES
+
+* Desayuno
+* Comida
+* Merienda
+* Cena
+
+Y así sucesivamente.
+
+Cada comida debe mostrar:
+
+* Nombre.
+* Imagen.
+* Tiempo de preparación.
+* Dificultad.
+* Ingredientes principales.
+* Información nutricional aproximada.
+* Proteínas.
+* Carbohidratos.
+* Grasas.
+* Calorías aproximadas cuando sea apropiado.
+
+## 6. RECETAS
+
+Al pulsar sobre una comida, abrir una página detallada.
+
+Debe incluir:
+
+### Información
+
+* Nombre de la receta.
+* Tiempo total.
+* Tiempo de preparación.
+* Tiempo de cocción.
+* Dificultad.
+* Número de personas.
+
+### Ingredientes
+
+Mostrar todos los ingredientes con cantidades adaptadas automáticamente al número de personas.
+
+### Preparación
+
+Explicar la receta paso a paso de forma clara.
+
+Ejemplo:
+
+1. Preparar los ingredientes.
+2. Cortar...
+3. Cocinar...
+4. Añadir...
+5. Servir.
+
+No utilizar instrucciones ambiguas.
+
+## 7. CAMBIAR UNA COMIDA
+
+Cada comida debe tener un botón:
+
+**"Cambiar comida"**
+
+Al pulsarlo, generar varias alternativas compatibles con:
+
+* Objetivo.
+* Preferencias.
+* Alimentos excluidos.
+* Tiempo disponible.
+* Supermercado.
+* Resto del menú.
+
+El usuario puede seleccionar una alternativa y sustituir la comida original sin regenerar todo el menú.
+
+## 8. FAVORITOS
+
+Crear un sistema de favoritos.
+
+El usuario podrá marcar:
+
+* Recetas favoritas.
+* Ingredientes favoritos.
+
+Crear una sección:
+
+**⭐ Mis favoritos**
+
+Desde allí podrá consultar rápidamente sus recetas favoritas.
+
+El generador debe dar preferencia a los alimentos favoritos cuando sea compatible con el objetivo del menú.
+
+## 9. ALIMENTOS EXCLUIDOS
+
+Crear una sección:
+
+**🚫 Alimentos que no quiero**
+
+El usuario podrá añadir y eliminar alimentos.
+
+Una vez excluido un alimento, el generador no deberá utilizarlo en las recetas.
+
+Diferenciar entre:
+
+* "No me gusta".
+* "Quiero evitar".
+* "Alergia/intolerancia".
+
+Las alergias/intolerancias deben tener prioridad máxima.
+
+## 10. LISTA DE LA COMPRA
+
+Crear automáticamente una lista de la compra a partir del menú.
+
+Agrupar los ingredientes por categorías:
+
+* Frutas.
+* Verduras.
+* Carne.
+* Pescado.
+* Huevos.
+* Lácteos.
+* Cereales.
+* Legumbres.
+* Conservas.
+* Congelados.
+* Otros.
+
+Sumar automáticamente las cantidades cuando el mismo ingrediente aparezca en varias recetas.
+
+Permitir marcar los productos como comprados.
+
+Ejemplo:
+
+☐ 1 kg de pollo
+☐ 6 huevos
+☐ 500 g de arroz
+☐ 4 tomates
+
+Añadir un botón para limpiar los productos ya comprados.
+
+## 11. APROVECHAMIENTO DE INGREDIENTES
+
+El generador debe intentar utilizar los mismos ingredientes en diferentes recetas cuando tenga sentido.
+
+Por ejemplo, si una receta utiliza medio paquete de espinacas, intentar utilizar el resto en otra comida antes de que se desperdicie.
+
+Debe buscar un equilibrio entre:
+
+* Variedad.
+* Precio.
+* Facilidad.
+* Aprovechamiento.
+
+## 12. FILTROS
+
+Permitir filtrar las recetas por:
+
+* Tiempo.
+* Dificultad.
+* Tipo de comida.
+* Proteínas.
+* Calorías.
+* Ingredientes.
+* Favoritos.
+
+## 13. HISTORIAL
+
+Guardar los menús creados anteriormente.
+
+Crear una sección:
+
+**📚 Historial**
+
+El usuario podrá:
+
+* Ver menús anteriores.
+* Volver a utilizarlos.
+* Copiarlos.
+* Modificarlos.
+* Eliminarlos.
+
+## 14. GENERAR DE NUEVO
+
+Añadir botones:
+
+**"Regenerar menú completo"**
+
+y
+
+**"Regenerar este día"**
+
+y
+
+**"Cambiar esta comida"**
+
+Cada opción debe afectar solamente a lo necesario.
+
+## 15. PLANIFICACIÓN
+
+Permitir seleccionar qué días se quieren planificar.
+
+Por ejemplo:
+
+☑ Lunes
+☑ Martes
+☑ Miércoles
+☐ Jueves
+☑ Viernes
+
+El sistema solamente debe generar los días seleccionados.
+
+## 16. DISEÑO
+
+Quiero una interfaz moderna y profesional.
+
+Debe estar especialmente optimizada para teléfonos móviles.
+
+Características:
+
+* Diseño limpio.
+* Botones grandes.
+* Navegación sencilla.
+* Tarjetas para las recetas.
+* Imágenes de los platos.
+* Iconos.
+* Animaciones suaves.
+* Modo claro y oscuro.
+* Diseño responsive para móvil, tablet y ordenador.
+
+La aplicación NO debe parecer una página web antigua.
+
+Debe parecer una aplicación comercial moderna.
+
+## 17. NAVEGACIÓN
+
+Crear una barra de navegación inferior en móvil con:
+
+🏠 Inicio
+📅 Menú
+🛒 Compra
+⭐ Favoritos
+⚙️ Perfil
+
+## 18. PERFIL Y AJUSTES
+
+Crear una sección de configuración donde el usuario pueda modificar:
+
+* Objetivo.
+* Número de personas.
+* Comidas diarias.
+* Supermercado.
+* Tiempo disponible.
+* Presupuesto.
+* Preferencias alimentarias.
+* Alimentos favoritos.
+* Alimentos excluidos.
+* Alergias/intolerancias.
+* Tema claro/oscuro.
+
+Los cambios deben guardarse.
+
+## 19. BASE DE DATOS
+
+La aplicación debe estar estructurada para poder almacenar:
+
+* Usuarios.
+* Recetas.
+* Ingredientes.
+* Información nutricional.
+* Favoritos.
+* Alimentos excluidos.
+* Menús generados.
+* Historial.
+* Preferencias.
+
+No quiero datos falsos presentados como datos reales.
+
+## 20. SISTEMA DE RECOMENDACIÓN
+
+El generador debe intentar equilibrar:
+
+* Variedad.
+* Preferencias del usuario.
+* Objetivo seleccionado.
+* Tiempo.
+* Presupuesto.
+* Aprovechamiento de ingredientes.
+* Facilidad de preparación.
+
+No generar menús absurdos ni combinaciones poco realistas.
+
+## 21. SEGURIDAD Y SALUD
+
+No presentar la aplicación como sustituto de un médico, dietista o nutricionista.
+
+Las recomendaciones nutricionales deben mostrarse como orientación general.
+
+Evitar dietas extremas o recomendaciones peligrosas.
+
+## 22. TECNOLOGÍA
+
+Quiero que sea una **aplicación móvil Android real y funcional**, no solamente una página HTML.
+
+Utiliza una tecnología apropiada para desarrollar una app Android, por ejemplo React Native + Expo si es adecuada para el proyecto.
+
+La aplicación debe poder compilarse como APK para poder instalarla en un teléfono Android.
+
+Si la plataforma permite generar directamente el APK, hazlo.
+
+Si no puede generarlo directamente, proporciona todo el proyecto necesario y explica exactamente cómo generar el APK.
+
+## 23. CALIDAD
+
+Antes de terminar:
+
+* Comprueba que todos los botones funcionan.
+* Comprueba que la navegación funciona.
+* Comprueba que las preferencias se guardan.
+* Comprueba que las recetas se pueden abrir.
+* Comprueba que las comidas se pueden sustituir.
+* Comprueba que la lista de compra se genera correctamente.
+* Comprueba que las cantidades se calculan correctamente según el número de personas.
+* Comprueba que los alimentos excluidos no aparecen.
+* Comprueba que el diseño funciona correctamente en móvil.
+
+NO quiero que simplemente escribas una explicación de cómo hacerlo.
+
+Quiero que construyas la aplicación y todos los archivos necesarios.
+
+Si alguna función requiere una API, base de datos o servicio externo, indícalo claramente y crea la estructura necesaria para integrarlo.
+
+Empieza creando una primera versión completamente funcional y después mejora cualquier parte que sea necesaria.
