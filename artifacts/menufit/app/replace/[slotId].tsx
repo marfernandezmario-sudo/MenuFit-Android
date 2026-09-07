@@ -11,13 +11,22 @@ export default function ReplaceMealScreen() {
   const { slotId } = useLocalSearchParams<{ slotId: string }>();
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { menu, getRecipe, replaceMeal } = useMenuFit();
+  const { menu, getRecipe, replaceMeal, preferences } = useMenuFit();
   const slot = menu.find((item) => item.id === slotId);
   if (!slot) return null;
   const current = getRecipe(slot.recipeId);
-  const alternatives = recipes.filter((recipe) => recipe.id !== current.id && recipe.mealType === current.mealType && recipe.time <= 45);
+  const alternatives = recipes.filter((recipe) => recipe.id !== current.id && recipe.mealType === current.mealType && recipeMatchesPreferences(recipe, preferences));
   return <ScrollView style={{ backgroundColor: colors.background }} contentContainerStyle={[styles.content, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 30 }]}><View style={styles.header}><IconButton icon="arrow-left" onPress={() => router.back()} label="Volver" /><View style={styles.headerCopy}><Text style={[styles.eyebrow, { color: colors.primary }]}>CAMBIAR COMIDA</Text><Text style={[styles.title, { color: colors.foreground }]}>{slot.mealType}</Text></View></View><View style={[styles.context, { backgroundColor: colors.secondary }]}><Feather name="info" size={16} color={colors.secondaryForeground} /><Text style={[styles.contextText, { color: colors.secondaryForeground }]}>Alternativas compatibles con tu tiempo y preferencias.</Text></View><Text style={[styles.currentLabel, { color: colors.mutedForeground }]}>Ahora tienes</Text><RecipeCard name={current.name} image={current.image} time={current.time} protein={current.protein} favorite onPress={() => undefined} onFavorite={() => undefined} />{alternatives.map((recipe) => <RecipeCard key={recipe.id} name={recipe.name} image={recipe.image} time={recipe.time} protein={recipe.protein} onPress={() => { replaceMeal(slot.id, recipe.id); router.back(); }} onFavorite={() => undefined} />)}</ScrollView>;
 }
+
+const recipeMatchesPreferences = (recipe: (typeof recipes)[number], preferences: ReturnType<typeof useMenuFit>['preferences']) => {
+  const text = `${recipe.name} ${recipe.ingredients.map((item) => item.name).join(' ')}`.toLowerCase();
+  const strict = [...preferences.allergies, ...preferences.excluded, ...preferences.disliked].map((item) => item.toLowerCase());
+  if (strict.some((item) => item && text.includes(item))) return false;
+  if (preferences.diet === 'Vegetariana' && recipe.ingredients.some((item) => ['carne', 'pescado'].includes(item.category.toLowerCase()))) return false;
+  const max = Number(preferences.cookTime.split('-')[1]?.replace(/\D/g, '')) || 60;
+  return preferences.cookTime === 'Más de 45 minutos' || recipe.time <= max;
+};
 
 const styles = StyleSheet.create({
   content: { paddingHorizontal: 20 },

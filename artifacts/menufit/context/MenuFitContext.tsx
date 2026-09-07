@@ -74,6 +74,18 @@ export type MenuHistory = {
 const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 export const mealTypes: MealType[] = ['Desayuno', 'Comida', 'Merienda', 'Cena'];
 
+const getDayLabel = (dayIndex: number) => {
+  const weekday = daysOfWeek[dayIndex % daysOfWeek.length];
+  return dayIndex < daysOfWeek.length ? weekday : `Día ${dayIndex + 1} · ${weekday}`;
+};
+
+const getDayOrder = (day: string) => {
+  const numbered = day.match(/^Día (\d+)/);
+  if (numbered) return Number(numbered[1]);
+  const weekdayIndex = daysOfWeek.indexOf(day);
+  return weekdayIndex >= 0 ? weekdayIndex + 1 : 999;
+};
+
 export const defaultPreferences: Preferences = {
   people: 2,
   days: 5,
@@ -307,6 +319,264 @@ export const recipes: Recipe[] = [
     tags: ['rápido', 'vegetariano'],
     description: 'Dulce, energético y listo en menos de diez minutos.',
   },
+  {
+    id: 'apple-cinnamon-oats',
+    name: 'Porridge de manzana y canela',
+    mealType: 'Desayuno',
+    time: 10,
+    prepTime: 3,
+    cookTime: 7,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'avena', amount: 60, unit: 'g', category: 'Cereales' },
+      { name: 'leche', amount: 200, unit: 'ml', category: 'Lácteos' },
+      { name: 'manzana', amount: 1, unit: 'ud', category: 'Frutas' },
+      { name: 'canela', amount: 1, unit: 'pizca', category: 'Otros' },
+    ],
+    steps: ['Calienta la leche con la avena a fuego medio.', 'Remueve durante 6-7 minutos hasta que espese.', 'Añade la manzana en dados y la canela.', 'Sirve caliente.'],
+    calories: 360,
+    protein: 14,
+    carbs: 58,
+    fats: 9,
+    tags: ['rápido', 'vegetariano', 'fibra'],
+    description: 'Un desayuno caliente y reconfortante con fruta y fibra.',
+  },
+  {
+    id: 'avocado-egg-toast',
+    name: 'Tostada de aguacate y huevo',
+    mealType: 'Desayuno',
+    time: 12,
+    prepTime: 5,
+    cookTime: 7,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'pan integral', amount: 2, unit: 'rebanadas', category: 'Cereales' },
+      { name: 'aguacate', amount: 70, unit: 'g', category: 'Frutas' },
+      { name: 'huevos', amount: 2, unit: 'ud', category: 'Huevos' },
+      { name: 'tomate cherry', amount: 80, unit: 'g', category: 'Verduras' },
+    ],
+    steps: ['Tuesta el pan.', 'Cocina los huevos a la plancha o escalfados.', 'Aplasta el aguacate sobre el pan.', 'Termina con el huevo y el tomate.'],
+    calories: 430,
+    protein: 22,
+    carbs: 35,
+    fats: 23,
+    tags: ['vegetariano', 'alto en proteína'],
+    description: 'Una tostada completa para empezar el día con energía.',
+  },
+  {
+    id: 'chickpea-curry',
+    name: 'Curry rápido de garbanzos',
+    mealType: 'Comida',
+    time: 25,
+    prepTime: 8,
+    cookTime: 17,
+    difficulty: 'Fácil',
+    image: imageAssets.quinoa,
+    ingredients: [
+      { name: 'garbanzos cocidos', amount: 180, unit: 'g', category: 'Legumbres' },
+      { name: 'leche de coco', amount: 120, unit: 'ml', category: 'Otros' },
+      { name: 'tomate triturado', amount: 120, unit: 'g', category: 'Verduras' },
+      { name: 'arroz basmati', amount: 60, unit: 'g', category: 'Cereales' },
+      { name: 'espinacas', amount: 50, unit: 'g', category: 'Verduras' },
+    ],
+    steps: ['Cuece el arroz según el envase.', 'Calienta el tomate con las especias durante 5 minutos.', 'Añade los garbanzos y la leche de coco.', 'Cocina 10 minutos e incorpora las espinacas al final.'],
+    calories: 540,
+    protein: 20,
+    carbs: 78,
+    fats: 16,
+    tags: ['vegetariano', 'batch cooking', 'fibra'],
+    description: 'Un plato vegetal especiado que se conserva muy bien.',
+  },
+  {
+    id: 'turkey-couscous',
+    name: 'Cuscús de pavo y verduras',
+    mealType: 'Comida',
+    time: 22,
+    prepTime: 10,
+    cookTime: 12,
+    difficulty: 'Fácil',
+    image: imageAssets.chicken,
+    ingredients: [
+      { name: 'pavo', amount: 150, unit: 'g', category: 'Carne' },
+      { name: 'cuscús', amount: 70, unit: 'g', category: 'Cereales' },
+      { name: 'calabacín', amount: 100, unit: 'g', category: 'Verduras' },
+      { name: 'zanahoria', amount: 80, unit: 'g', category: 'Verduras' },
+      { name: 'pasas', amount: 15, unit: 'g', category: 'Frutas' },
+    ],
+    steps: ['Hidrata el cuscús con agua caliente.', 'Saltea el pavo en dados.', 'Añade el calabacín y la zanahoria y cocina 8 minutos.', 'Mezcla con el cuscús y las pasas.'],
+    calories: 510,
+    protein: 36,
+    carbs: 62,
+    fats: 12,
+    tags: ['alto en proteína', 'batch cooking'],
+    description: 'Un plato colorido, rápido y fácil de llevar.',
+  },
+  {
+    id: 'tuna-potato-salad',
+    name: 'Ensalada de patata y atún',
+    mealType: 'Comida',
+    time: 25,
+    prepTime: 10,
+    cookTime: 15,
+    difficulty: 'Fácil',
+    image: imageAssets.quinoa,
+    ingredients: [
+      { name: 'patata', amount: 220, unit: 'g', category: 'Verduras' },
+      { name: 'atún al natural', amount: 100, unit: 'g', category: 'Pescado' },
+      { name: 'huevo', amount: 1, unit: 'ud', category: 'Huevos' },
+      { name: 'judías verdes', amount: 100, unit: 'g', category: 'Verduras' },
+      { name: 'tomate', amount: 80, unit: 'g', category: 'Verduras' },
+    ],
+    steps: ['Cuece la patata y las judías verdes.', 'Cuece el huevo durante 9 minutos.', 'Corta el tomate y mezcla todos los ingredientes.', 'Aliña con aceite, vinagre y pimienta.'],
+    calories: 460,
+    protein: 31,
+    carbs: 49,
+    fats: 15,
+    tags: ['alto en proteína', 'sin gluten'],
+    description: 'Una ensalada fresca y saciante para preparar con antelación.',
+  },
+  {
+    id: 'hummus-carrot-crackers',
+    name: 'Hummus con crudités y pan crujiente',
+    mealType: 'Merienda',
+    time: 8,
+    prepTime: 8,
+    cookTime: 0,
+    difficulty: 'Fácil',
+    image: imageAssets.quinoa,
+    ingredients: [
+      { name: 'hummus', amount: 70, unit: 'g', category: 'Legumbres' },
+      { name: 'zanahoria', amount: 100, unit: 'g', category: 'Verduras' },
+      { name: 'pepino', amount: 100, unit: 'g', category: 'Verduras' },
+      { name: 'pan integral', amount: 1, unit: 'rebanada', category: 'Cereales' },
+    ],
+    steps: ['Lava y corta la zanahoria y el pepino en bastones.', 'Tuesta el pan y córtalo en tiras.', 'Sirve el hummus en un bol.', 'Acompaña con las verduras y el pan.'],
+    calories: 250,
+    protein: 9,
+    carbs: 34,
+    fats: 9,
+    tags: ['vegetariano', 'sin cocinar', 'rápido'],
+    description: 'Un picoteo vegetal y crujiente para cualquier tarde.',
+  },
+  {
+    id: 'cottage-peach',
+    name: 'Cottage con melocotón y semillas',
+    mealType: 'Merienda',
+    time: 5,
+    prepTime: 5,
+    cookTime: 0,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'queso cottage', amount: 180, unit: 'g', category: 'Lácteos' },
+      { name: 'melocotón', amount: 1, unit: 'ud', category: 'Frutas' },
+      { name: 'semillas de chía', amount: 10, unit: 'g', category: 'Otros' },
+    ],
+    steps: ['Corta el melocotón.', 'Sirve el queso cottage en un bol.', 'Añade el melocotón y las semillas.', 'Remueve y disfruta frío.'],
+    calories: 220,
+    protein: 23,
+    carbs: 22,
+    fats: 6,
+    tags: ['alto en proteína', 'sin cocinar'],
+    description: 'Una merienda muy proteica lista en cinco minutos.',
+  },
+  {
+    id: 'turkey-meatballs',
+    name: 'Albóndigas de pavo con tomate',
+    mealType: 'Cena',
+    time: 30,
+    prepTime: 12,
+    cookTime: 18,
+    difficulty: 'Media',
+    image: imageAssets.chicken,
+    ingredients: [
+      { name: 'carne picada de pavo', amount: 170, unit: 'g', category: 'Carne' },
+      { name: 'tomate triturado', amount: 180, unit: 'g', category: 'Verduras' },
+      { name: 'calabacín', amount: 160, unit: 'g', category: 'Verduras' },
+      { name: 'pan rallado', amount: 20, unit: 'g', category: 'Cereales' },
+    ],
+    steps: ['Mezcla el pavo con el pan rallado y forma bolas.', 'Dóralas en una sartén.', 'Añade el tomate y cocina 15 minutos.', 'Sirve con calabacín a la plancha.'],
+    calories: 470,
+    protein: 42,
+    carbs: 27,
+    fats: 20,
+    tags: ['alto en proteína', 'batch cooking'],
+    description: 'Una cena casera que también funciona muy bien para el día siguiente.',
+  },
+  {
+    id: 'cod-ratatouille',
+    name: 'Bacalao con ratatouille',
+    mealType: 'Cena',
+    time: 28,
+    prepTime: 10,
+    cookTime: 18,
+    difficulty: 'Media',
+    image: imageAssets.chicken,
+    ingredients: [
+      { name: 'bacalao', amount: 170, unit: 'g', category: 'Pescado' },
+      { name: 'berenjena', amount: 100, unit: 'g', category: 'Verduras' },
+      { name: 'calabacín', amount: 100, unit: 'g', category: 'Verduras' },
+      { name: 'pimiento rojo', amount: 80, unit: 'g', category: 'Verduras' },
+      { name: 'tomate triturado', amount: 120, unit: 'g', category: 'Verduras' },
+    ],
+    steps: ['Corta las verduras en dados.', 'Cocínalas con el tomate durante 15 minutos.', 'Cocina el bacalao a la plancha 4 minutos por lado.', 'Sirve el pescado sobre la ratatouille.'],
+    calories: 390,
+    protein: 39,
+    carbs: 22,
+    fats: 13,
+    tags: ['sin gluten', 'alto en proteína'],
+    description: 'Pescado blanco con una base abundante de verduras.',
+  },
+  {
+    id: 'tofu-stir-fry',
+    name: 'Salteado de tofu y verduras',
+    mealType: 'Cena',
+    time: 20,
+    prepTime: 8,
+    cookTime: 12,
+    difficulty: 'Fácil',
+    image: imageAssets.quinoa,
+    ingredients: [
+      { name: 'tofu', amount: 180, unit: 'g', category: 'Legumbres' },
+      { name: 'brócoli', amount: 130, unit: 'g', category: 'Verduras' },
+      { name: 'pimiento rojo', amount: 80, unit: 'g', category: 'Verduras' },
+      { name: 'arroz basmati', amount: 55, unit: 'g', category: 'Cereales' },
+      { name: 'salsa de soja', amount: 15, unit: 'ml', category: 'Otros' },
+    ],
+    steps: ['Cuece el arroz.', 'Dora el tofu en dados.', 'Saltea el brócoli y el pimiento.', 'Mezcla todo con la salsa de soja y sirve.'],
+    calories: 480,
+    protein: 27,
+    carbs: 58,
+    fats: 16,
+    tags: ['vegetariano', 'rápido'],
+    description: 'Un salteado vegetal sabroso con textura y proteína.',
+  },
+  {
+    id: 'chicken-fajita-bowl',
+    name: 'Bowl de pollo estilo fajita',
+    mealType: 'Cena',
+    time: 25,
+    prepTime: 10,
+    cookTime: 15,
+    difficulty: 'Fácil',
+    image: imageAssets.chicken,
+    ingredients: [
+      { name: 'pechuga de pollo', amount: 160, unit: 'g', category: 'Carne' },
+      { name: 'arroz integral', amount: 60, unit: 'g', category: 'Cereales' },
+      { name: 'pimiento rojo', amount: 100, unit: 'g', category: 'Verduras' },
+      { name: 'maíz', amount: 60, unit: 'g', category: 'Verduras' },
+      { name: 'aguacate', amount: 50, unit: 'g', category: 'Frutas' },
+    ],
+    steps: ['Cuece el arroz.', 'Corta y saltea el pollo con el pimiento.', 'Añade el maíz y las especias.', 'Monta el bowl con arroz, pollo y aguacate.'],
+    calories: 560,
+    protein: 43,
+    carbs: 61,
+    fats: 18,
+    tags: ['alto en proteína', 'batch cooking'],
+    description: 'Un bowl completo inspirado en los sabores de las fajitas.',
+  },
 ];
 
 const storageKey = '@menufit/state-v1';
@@ -370,12 +640,13 @@ const createMenu = (prefs: Preferences, current: MenuSlot[] = []): MenuSlot[] =>
   const allowed = recipes.filter((recipe) => recipeMatches(recipe, prefs));
   const source = allowed.length > 0 ? allowed : recipes.filter((recipe) => !prefs.allergies.some((allergy) => recipe.name.toLowerCase().includes(allergy.toLowerCase())));
   const result: MenuSlot[] = [];
-  const selectedDays = daysOfWeek.slice(0, prefs.days);
+  const selectedDays = Array.from({ length: Math.min(30, Math.max(1, prefs.days)) }, (_, index) => getDayLabel(index));
   const favorites = prefs.favorites.map((item) => item.toLowerCase());
   selectedDays.forEach((day, dayIndex) => {
     const date = new Date();
     date.setDate(date.getDate() + dayIndex);
-    const dateLabel = date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+    const weekday = date.toLocaleDateString('es-ES', { weekday: 'short' });
+    const dateLabel = `${weekday.charAt(0).toUpperCase()}${weekday.slice(1)} ${date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}`;
     const activeMeals = mealTypes.slice(0, prefs.mealsPerDay);
     activeMeals.forEach((mealType, mealIndex) => {
       const candidates = source.filter((recipe) => recipe.mealType === mealType);
@@ -469,17 +740,17 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
   };
 
   const generateMenu = (days = preferences.days) => {
-    const nextPreferences = { ...preferences, days };
+    const nextPreferences = { ...preferences, days: Math.min(30, Math.max(1, days)) };
     const nextMenu = createMenu(nextPreferences);
-    const entry: MenuHistory = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, createdAt: new Date().toISOString(), label: `${days} días · ${goalLabels[nextPreferences.goal]}`, slots: nextMenu };
+    const entry: MenuHistory = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, createdAt: new Date().toISOString(), label: `${nextPreferences.days} días · ${goalLabels[nextPreferences.goal]}`, slots: nextMenu };
     const nextHistory = [entry, ...history].slice(0, 10);
     saveState(nextPreferences, nextMenu, aggregateShopping(nextMenu, nextPreferences), favoriteRecipes, nextHistory);
   };
 
   const regenerateDay = (day: string) => {
     const keep = menu.filter((slot) => slot.day !== day);
-    const replacement = createMenu({ ...preferences, days: 7 }).filter((slot) => slot.day === day);
-    const nextMenu = [...keep, ...replacement].sort((a, b) => daysOfWeek.indexOf(a.day) - daysOfWeek.indexOf(b.day));
+    const replacement = createMenu({ ...preferences, days: preferences.days }).filter((slot) => slot.day === day);
+    const nextMenu = [...keep, ...replacement].sort((a, b) => getDayOrder(a.day) - getDayOrder(b.day));
     saveState(preferences, nextMenu, aggregateShopping(nextMenu, preferences, shopping));
   };
 
@@ -551,4 +822,4 @@ export const useMenuFit = () => {
 };
 
 export const getGoalLabel = (goal: Goal) => goalLabels[goal];
-export const getDayNames = () => daysOfWeek;
+export const getDayNames = (count = 7) => Array.from({ length: Math.min(30, Math.max(1, count)) }, (_, index) => getDayLabel(index));

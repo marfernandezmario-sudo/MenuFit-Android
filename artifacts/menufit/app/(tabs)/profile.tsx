@@ -9,7 +9,7 @@ import { Field, Pill, PrimaryButton, SectionTitle } from '@/components/MenuFitUI
 export default function ProfileScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
-  const { preferences, updatePreferences, addExclusion, removeExclusion, history, restoreHistory, deleteHistory } = useMenuFit();
+  const { preferences, updatePreferences, generateMenu, addExclusion, removeExclusion, history, restoreHistory, deleteHistory } = useMenuFit();
   const [newFood, setNewFood] = useState('');
   const [exclusionType, setExclusionType] = useState<ExclusionType>('Quiero evitar');
   const saveFood = () => { if (newFood.trim()) { addExclusion(newFood, exclusionType); setNewFood(''); } };
@@ -18,6 +18,7 @@ export default function ProfileScreen() {
     <View style={[styles.summary, { backgroundColor: colors.card, borderColor: colors.border }]}><Text style={[styles.summaryTitle, { color: colors.foreground }]}>{getGoalLabel(preferences.goal)}</Text><Text style={[styles.summaryText, { color: colors.mutedForeground }]}>{preferences.people} {preferences.people === 1 ? 'persona' : 'personas'} · {preferences.days} días · {preferences.supermarket}</Text></View>
     <SectionTitle eyebrow="PREFERENCIAS" title="Planificación" />
     <Text style={[styles.label, { color: colors.mutedForeground }]}>Objetivo</Text><View style={styles.pills}>{(['balanced', 'protein', 'weight-loss', 'muscle'] as const).map((goal) => <Pill key={goal} label={getGoalLabel(goal)} selected={preferences.goal === goal} onPress={() => updatePreferences({ goal })} />)}</View>
+    <Text style={[styles.label, { color: colors.mutedForeground }]}>Duración del plan</Text><View style={styles.pills}>{[1, 7, 14, 30].map((days) => <Pill key={days} label={`${days} ${days === 1 ? 'día' : 'días'}`} selected={preferences.days === days} onPress={() => generateMenu(days)} />)}</View>
     <Text style={[styles.label, { color: colors.mutedForeground }]}>Tiempo disponible</Text><View style={styles.pills}>{['10-20 minutos', '20-30 minutos', 'Más de 45 minutos'].map((time) => <Pill key={time} label={time} selected={preferences.cookTime === time} onPress={() => updatePreferences({ cookTime: time })} />)}</View>
     <Text style={[styles.label, { color: colors.mutedForeground }]}>Supermercado</Text><View style={styles.pills}>{['Mercadona', 'Carrefour', 'Lidl'].map((store) => <Pill key={store} label={store} selected={preferences.supermarket === store} onPress={() => updatePreferences({ supermarket: store })} />)}</View>
     <SectionTitle eyebrow="ALIMENTOS" title="Lo que prefieres" />
