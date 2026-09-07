@@ -37,6 +37,7 @@ export type Preferences = {
   people: number;
   days: number;
   mealsPerDay: number;
+  shoppingTripsPerWeek: number;
   goal: Goal;
   cookTime: string;
   budget: string;
@@ -90,6 +91,7 @@ export const defaultPreferences: Preferences = {
   people: 2,
   days: 5,
   mealsPerDay: 4,
+  shoppingTripsPerWeek: 1,
   goal: 'balanced',
   cookTime: '20-30 minutos',
   budget: 'Medio',
@@ -610,6 +612,7 @@ type MenuFitContextValue = {
   deleteHistory: (historyId: string) => void;
   getRecipe: (recipeId: string) => Recipe;
   allExclusions: string[];
+  getShoppingWindowDays: () => number;
 };
 
 const Context = createContext<MenuFitContextValue | null>(null);
@@ -630,7 +633,10 @@ const recipeMatches = (recipe: Recipe, prefs: Preferences) => {
   const soft = prefs.disliked.map((item) => item.toLowerCase());
   if (strict.some((item) => item && text.includes(item))) return false;
   if (soft.some((item) => item && text.includes(item))) return false;
-  if (prefs.diet === 'Vegetariana' && recipe.ingredients.some((item) => ['carne', 'pescado'].includes(item.category.toLowerCase()))) return false;
+  const categories = recipe.ingredients.map((item) => item.category.toLowerCase());
+  if (prefs.diet === 'Vegetariana' && categories.some((category) => ['carne', 'pescado'].includes(category))) return false;
+  if (prefs.diet === 'Sin pescado' && categories.includes('pescado')) return false;
+  if (prefs.diet === 'Vegana' && categories.some((category) => ['carne', 'pescado', 'huevos', 'lácteos'].includes(category))) return false;
   const max = Number(prefs.cookTime.split('-')[1]?.replace(/\D/g, '')) || 60;
   if (recipe.time > max && prefs.cookTime !== 'Más de 45 minutos') return false;
   return true;
@@ -662,9 +668,13 @@ const createMenu = (prefs: Preferences, current: MenuSlot[] = []): MenuSlot[] =>
   return result;
 };
 
+const getShoppingWindowDays = (prefs: Preferences) => Math.max(1, Math.ceil(7 / Math.max(1, prefs.shoppingTripsPerWeek)));
+
 const aggregateShopping = (menu: MenuSlot[], prefs: Preferences, previous: ShoppingItem[] = []) => {
   const map = new Map<string, ShoppingItem>();
+  const windowDays = Math.min(prefs.days, getShoppingWindowDays(prefs));
   menu.forEach((slot) => {
+    if (getDayOrder(slot.day) > windowDays) return;
     const recipe = recipes.find((item) => item.id === slot.recipeId);
     recipe?.ingredients.forEach((ingredient) => {
       const key = `${ingredient.name}-${ingredient.unit}`;
@@ -810,6 +820,7 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
     deleteHistory,
     getRecipe: (recipeId) => recipes.find((item) => item.id === recipeId) ?? recipes[0],
     allExclusions: [...preferences.allergies, ...preferences.excluded, ...preferences.disliked],
+    getShoppingWindowDays: () => Math.min(preferences.days, getShoppingWindowDays(preferences)),
   }), [hydrated, preferences, menu, shopping, favoriteRecipes, history]);
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
