@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
@@ -17,7 +17,7 @@ export default function RecipeDetailScreen() {
   const slot = menu.find((item) => item.recipeId === recipe.id);
   const alternatives = recipes.filter((item) => item.mealType === recipe.mealType && item.id !== recipe.id).slice(0, 3);
   return <ScrollView style={{ backgroundColor: colors.background }} contentContainerStyle={{ paddingBottom: insets.bottom + 35 }} showsVerticalScrollIndicator={false}>
-    <View><Image source={recipe.image} style={styles.cover} /><View style={[styles.backButton, { top: insets.top + 10 }]}><IconButton icon="arrow-left" onPress={() => router.back()} label="Volver" /></View><View style={styles.coverActions}><IconButton icon="heart" onPress={() => toggleRecipeFavorite(recipe.id)} label="Favorito" active={favorite} /></View></View>
+    <View style={[styles.cover, { backgroundColor: colors.secondary }]}><Feather name={recipe.mealType === 'Desayuno' ? 'sunrise' : recipe.mealType === 'Cena' ? 'moon' : recipe.mealType === 'Merienda' ? 'coffee' : 'sun'} size={74} color={colors.secondaryForeground} /><View style={[styles.coverDot, { backgroundColor: colors.accent }]} /><View style={[styles.backButton, { top: insets.top + 10 }]}><IconButton icon="arrow-left" onPress={() => router.back()} label="Volver" /></View><View style={styles.coverActions}><IconButton icon="heart" onPress={() => toggleRecipeFavorite(recipe.id)} label="Favorito" active={favorite} /></View></View>
     <View style={styles.content}><Text style={[styles.category, { color: colors.primary }]}>{recipe.mealType.toUpperCase()}</Text><Text style={[styles.title, { color: colors.foreground }]}>{recipe.name}</Text><Text style={[styles.description, { color: colors.mutedForeground }]}>{recipe.description}</Text>
       <View style={styles.metaGrid}><View style={styles.meta}><Feather name="clock" size={17} color={colors.primary} /><Text style={[styles.metaValue, { color: colors.foreground }]}>{recipe.time} min</Text><Text style={[styles.metaLabel, { color: colors.mutedForeground }]}>total</Text></View><View style={styles.meta}><Feather name="activity" size={17} color={colors.primary} /><Text style={[styles.metaValue, { color: colors.foreground }]}>{recipe.difficulty}</Text><Text style={[styles.metaLabel, { color: colors.mutedForeground }]}>dificultad</Text></View><View style={styles.meta}><Feather name="users" size={17} color={colors.primary} /><Text style={[styles.metaValue, { color: colors.foreground }]}>{2}</Text><Text style={[styles.metaLabel, { color: colors.mutedForeground }]}>personas</Text></View></View>
       <Text style={[styles.section, { color: colors.foreground }]}>Información nutricional</Text><View style={[styles.nutrition, { backgroundColor: colors.secondary }]}><View><Text style={[styles.nutrientValue, { color: colors.secondaryForeground }]}>{recipe.calories}</Text><Text style={[styles.nutrientLabel, { color: colors.secondaryForeground }]}>kcal aprox.</Text></View><View><Text style={[styles.nutrientValue, { color: colors.secondaryForeground }]}>{recipe.protein}g</Text><Text style={[styles.nutrientLabel, { color: colors.secondaryForeground }]}>proteína</Text></View><View><Text style={[styles.nutrientValue, { color: colors.secondaryForeground }]}>{recipe.carbs}g</Text><Text style={[styles.nutrientLabel, { color: colors.secondaryForeground }]}>carbos</Text></View><View><Text style={[styles.nutrientValue, { color: colors.secondaryForeground }]}>{recipe.fats}g</Text><Text style={[styles.nutrientLabel, { color: colors.secondaryForeground }]}>grasas</Text></View></View>
@@ -30,7 +30,8 @@ export default function RecipeDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  cover: { width: '100%', height: 270 },
+  cover: { width: '100%', height: 220, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  coverDot: { width: 17, height: 17, borderRadius: 9, position: 'absolute', right: '28%', top: '28%' },
   backButton: { position: 'absolute', left: 18 },
   coverActions: { position: 'absolute', top: 18, right: 18 },
   content: { paddingHorizontal: 20, paddingTop: 23 },

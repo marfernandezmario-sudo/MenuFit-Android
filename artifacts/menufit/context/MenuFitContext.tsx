@@ -37,7 +37,7 @@ export type Preferences = {
   people: number;
   days: number;
   mealsPerDay: number;
-  shoppingTripsPerWeek: number;
+  shoppingDays: number;
   goal: Goal;
   cookTime: string;
   budget: string;
@@ -91,7 +91,7 @@ export const defaultPreferences: Preferences = {
   people: 2,
   days: 5,
   mealsPerDay: 4,
-  shoppingTripsPerWeek: 1,
+  shoppingDays: 7,
   goal: 'balanced',
   cookTime: '20-30 minutos',
   budget: 'Medio',
@@ -606,6 +606,7 @@ type MenuFitContextValue = {
   toggleRecipeFavorite: (recipeId: string) => void;
   toggleShoppingItem: (itemId: string) => void;
   clearPurchased: () => void;
+  addShoppingItem: (name: string, amount?: number, unit?: string) => void;
   addExclusion: (value: string, type: ExclusionType) => void;
   removeExclusion: (value: string, type: ExclusionType) => void;
   restoreHistory: (historyId: string) => void;
@@ -668,7 +669,7 @@ const createMenu = (prefs: Preferences, current: MenuSlot[] = []): MenuSlot[] =>
   return result;
 };
 
-const getShoppingWindowDays = (prefs: Preferences) => Math.max(1, Math.ceil(7 / Math.max(1, prefs.shoppingTripsPerWeek)));
+const getShoppingWindowDays = (prefs: Preferences) => Math.max(1, Math.min(30, prefs.shoppingDays));
 
 const aggregateShopping = (menu: MenuSlot[], prefs: Preferences, previous: ShoppingItem[] = []) => {
   const map = new Map<string, ShoppingItem>();
@@ -693,6 +694,7 @@ const aggregateShopping = (menu: MenuSlot[], prefs: Preferences, previous: Shopp
       if (key.startsWith(lower)) map.delete(key);
     });
   });
+  previous.filter((item) => item.id.startsWith('custom-')).forEach((item) => map.set(item.id, item));
   return [...map.values()].sort((a, b) => a.category.localeCompare(b.category));
 };
 
@@ -745,8 +747,10 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
 
   const updatePreferences = (values: Partial<Preferences>) => {
     const nextPreferences = { ...preferences, ...values };
-    const nextShopping = aggregateShopping(menu, nextPreferences, shopping);
-    saveState(nextPreferences, menu, nextShopping);
+    const needsNewMenu = ['diet', 'cookTime', 'allergies', 'excluded', 'disliked'].some((key) => key in values);
+    const nextMenu = needsNewMenu ? createMenu(nextPreferences) : menu;
+    const nextShopping = aggregateShopping(nextMenu, nextPreferences, shopping);
+    saveState(nextPreferences, nextMenu, nextShopping);
   };
 
   const generateMenu = (days = preferences.days) => {
@@ -781,6 +785,14 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
 
   const clearPurchased = () => saveState(preferences, menu, shopping.filter((item) => !item.checked));
 
+  const addShoppingItem = (name: string, amount = 1, unit = 'ud') => {
+    const cleanName = name.trim();
+    if (!cleanName) return;
+    const id = `custom-${cleanName.toLowerCase()}-${Date.now()}`;
+    const next = [...shopping, { id, name: cleanName, amount: Math.max(0.1, amount), unit, category: 'Otros', checked: false }];
+    saveState(preferences, menu, next);
+  };
+
   const addExclusion = (value: string, type: ExclusionType) => {
     const key = type === 'Alergia / intolerancia' ? 'allergies' : type === 'No me gusta' ? 'disliked' : 'excluded';
     const next = [...preferences[key], ...parseCsv(value)].filter((item, index, array) => array.indexOf(item) === index);
@@ -814,6 +826,7 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
     toggleRecipeFavorite,
     toggleShoppingItem,
     clearPurchased,
+    addShoppingItem,
     addExclusion,
     removeExclusion,
     restoreHistory,

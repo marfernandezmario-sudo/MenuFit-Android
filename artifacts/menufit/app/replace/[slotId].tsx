@@ -23,7 +23,10 @@ const recipeMatchesPreferences = (recipe: (typeof recipes)[number], preferences:
   const text = `${recipe.name} ${recipe.ingredients.map((item) => item.name).join(' ')}`.toLowerCase();
   const strict = [...preferences.allergies, ...preferences.excluded, ...preferences.disliked].map((item) => item.toLowerCase());
   if (strict.some((item) => item && text.includes(item))) return false;
-  if (preferences.diet === 'Vegetariana' && recipe.ingredients.some((item) => ['carne', 'pescado'].includes(item.category.toLowerCase()))) return false;
+  const categories = recipe.ingredients.map((item) => item.category.toLowerCase());
+  if (preferences.diet === 'Vegetariana' && categories.some((category) => ['carne', 'pescado'].includes(category))) return false;
+  if (preferences.diet === 'Sin pescado' && categories.includes('pescado')) return false;
+  if (preferences.diet === 'Vegana' && categories.some((category) => ['carne', 'pescado', 'huevos', 'lácteos'].includes(category))) return false;
   const max = Number(preferences.cookTime.split('-')[1]?.replace(/\D/g, '')) || 60;
   return preferences.cookTime === 'Más de 45 minutos' || recipe.time <= max;
 };

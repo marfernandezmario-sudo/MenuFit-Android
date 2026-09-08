@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { ActivityIndicator, Image, ImageSourcePropType, Pressable, StyleProp, StyleSheet, Text, TextInput, TextStyle, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, ImageSourcePropType, Pressable, StyleProp, StyleSheet, Text, TextInput, TextStyle, View, ViewStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useColors } from '@/hooks/useColors';
 
@@ -43,8 +43,9 @@ export function Pill({ label, selected = false, onPress }: { label: string; sele
 
 export function RecipeCard({ name, image, time, protein, mealType, favorite, onPress, onFavorite }: { name: string; image: ImageSourcePropType; time: number; protein: number; mealType?: string; favorite?: boolean; onPress: () => void; onFavorite: () => void }) {
   const colors = useColors();
+  const icon = mealType === 'Desayuno' ? 'sunrise' : mealType === 'Cena' ? 'moon' : mealType === 'Merienda' ? 'coffee' : 'sun';
   return <Pressable onPress={onPress} style={({ pressed }) => [styles.recipeCard, { backgroundColor: colors.card, borderColor: colors.border, opacity: pressed ? 0.94 : 1 }]}>
-    <Image source={image} style={styles.recipeImage} />
+    <View style={[styles.recipeVisual, { backgroundColor: colors.secondary }]}><Feather name={icon} size={27} color={colors.secondaryForeground} /><View style={[styles.recipeVisualDot, { backgroundColor: colors.accent }]} /></View>
     <View style={styles.recipeInfo}>
       {mealType ? <Text style={[styles.cardEyebrow, { color: colors.primary }]}>{mealType}</Text> : null}
       <Text numberOfLines={2} style={[styles.cardTitle, { color: colors.foreground }]}>{name}</Text>
@@ -87,7 +88,8 @@ const styles = StyleSheet.create({
   pill: { paddingHorizontal: 13, paddingVertical: 9, borderRadius: 30, marginRight: 7 },
   pillText: { fontSize: 12, fontWeight: '600' },
   recipeCard: { borderRadius: 20, borderWidth: 1, overflow: 'hidden', marginBottom: 12, flexDirection: 'row', minHeight: 102 },
-  recipeImage: { width: 102, height: 102 },
+  recipeVisual: { width: 88, minHeight: 102, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  recipeVisualDot: { width: 9, height: 9, borderRadius: 5, position: 'absolute', right: 13, top: 13 },
   recipeInfo: { flex: 1, padding: 13, paddingRight: 34, justifyContent: 'center' },
   cardEyebrow: { fontSize: 10, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.7, marginBottom: 5 },
   cardTitle: { fontSize: 15, lineHeight: 20, fontWeight: '700' },
