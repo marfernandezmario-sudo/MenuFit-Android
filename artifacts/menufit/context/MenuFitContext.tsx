@@ -56,6 +56,7 @@ export type MenuSlot = {
   id: string;
   day: string;
   dateLabel: string;
+  dateKey?: string;
   mealType: MealType;
   recipeId: string;
 };
@@ -87,11 +88,13 @@ const getDayOrder = (day: string) => {
   return weekdayIndex >= 0 ? weekdayIndex + 1 : 999;
 };
 
+const getLocalDateKey = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+
 export const defaultPreferences: Preferences = {
   people: 2,
   days: 5,
   mealsPerDay: 4,
-  shoppingDays: 7,
+  shoppingDays: 5,
   goal: 'balanced',
   cookTime: '20-30 minutos',
   budget: 'Medio',
@@ -600,6 +603,7 @@ type MenuFitContextValue = {
   history: MenuHistory[];
   completeSetup: (values: Partial<Preferences>) => void;
   updatePreferences: (values: Partial<Preferences>) => void;
+  setShoppingDays: (days: number) => void;
   generateMenu: (days?: number) => void;
   regenerateDay: (day: string) => void;
   replaceMeal: (slotId: string, recipeId: string) => void;
@@ -663,7 +667,7 @@ const createMenu = (prefs: Preferences, current: MenuSlot[] = []): MenuSlot[] =>
       const used = result.slice(-6).map((item) => item.recipeId);
       const unique = mealPool.filter((recipe) => !used.includes(recipe.id));
       const recipe = (unique.length ? unique : mealPool)[(dayIndex + mealIndex) % (unique.length || mealPool.length)] ?? source[0];
-      result.push({ id: `${dayIndex}-${mealIndex}-${recipe.id}`, day, dateLabel, mealType, recipeId: recipe.id });
+      result.push({ id: `${dayIndex}-${mealIndex}-${recipe.id}`, day, dateLabel, dateKey: getLocalDateKey(date), mealType, recipeId: recipe.id });
     });
   });
   return result;
@@ -674,8 +678,15 @@ const getShoppingWindowDays = (prefs: Preferences) => Math.max(1, Math.min(30, p
 const aggregateShopping = (menu: MenuSlot[], prefs: Preferences, previous: ShoppingItem[] = []) => {
   const map = new Map<string, ShoppingItem>();
   const windowDays = Math.min(prefs.days, getShoppingWindowDays(prefs));
+  const startDate = new Date();
+  startDate.setHours(0, 0, 0, 0);
+  const endDate = new Date(startDate);
+  endDate.setDate(endDate.getDate() + windowDays - 1);
+  const startKey = getLocalDateKey(startDate);
+  const endKey = getLocalDateKey(endDate);
   menu.forEach((slot) => {
-    if (getDayOrder(slot.day) > windowDays) return;
+    const inDateWindow = slot.dateKey ? slot.dateKey >= startKey && slot.dateKey <= endKey : getDayOrder(slot.day) <= windowDays;
+    if (!inDateWindow) return;
     const recipe = recipes.find((item) => item.id === slot.recipeId);
     recipe?.ingredients.forEach((ingredient) => {
       const key = `${ingredient.name}-${ingredient.unit}`;
@@ -710,7 +721,9 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
     AsyncStorage.getItem(storageKey).then((value) => {
       if (value) {
         const saved = JSON.parse(value) as PersistedState;
-        setPreferences({ ...defaultPreferences, ...saved.preferences });
+        const mergedPreferences = { ...defaultPreferences, ...saved.preferences };
+        mergedPreferences.shoppingDays = Math.min(30, Math.max(1, Math.min(mergedPreferences.days, Number(mergedPreferences.shoppingDays) || defaultPreferences.shoppingDays)));
+        setPreferences(mergedPreferences);
         setMenu(saved.menu ?? []);
         setShopping(saved.shopping ?? []);
         setFavoriteRecipes(saved.favoriteRecipes ?? []);
@@ -751,6 +764,14 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
     const nextMenu = needsNewMenu ? createMenu(nextPreferences) : menu;
     const nextShopping = aggregateShopping(nextMenu, nextPreferences, shopping);
     saveState(nextPreferences, nextMenu, nextShopping);
+  };
+
+  const setShoppingDays = (days: number) => {
+    const requestedDays = Math.min(30, Math.max(1, days));
+    const nextDays = Math.max(preferences.days, requestedDays);
+    const nextPreferences = { ...preferences, days: nextDays, shoppingDays: requestedDays };
+    const nextMenu = nextDays > preferences.days ? createMenu(nextPreferences) : menu;
+    saveState(nextPreferences, nextMenu, aggregateShopping(nextMenu, nextPreferences, shopping));
   };
 
   const generateMenu = (days = preferences.days) => {
@@ -820,6 +841,7 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
     history,
     completeSetup,
     updatePreferences,
+    setShoppingDays,
     generateMenu,
     regenerateDay,
     replaceMeal,
