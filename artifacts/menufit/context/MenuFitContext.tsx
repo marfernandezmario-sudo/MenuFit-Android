@@ -798,6 +798,238 @@ export const recipes: Recipe[] = [
     tags: ['vegano', 'casero', 'fresco', 'batch cooking'],
     description: 'Una ensalada sencilla de despensa que también funciona fría al día siguiente.',
   },
+  {
+    id: 'tomato-olive-oil-toast',
+    name: 'Tostada de tomate y aceite de oliva',
+    mealType: 'Desayuno',
+    time: 8,
+    prepTime: 8,
+    cookTime: 0,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'pan integral', amount: 2, unit: 'rebanadas', category: 'Cereales' },
+      { name: 'tomate maduro', amount: 150, unit: 'g', category: 'Verduras' },
+      { name: 'aceite de oliva', amount: 10, unit: 'ml', category: 'Otros' },
+      { name: 'orégano', amount: 1, unit: 'pizca', category: 'Otros' },
+    ],
+    steps: ['Tuesta el pan.', 'Ralla el tomate y añade una pizca de sal y orégano.', 'Reparte el tomate sobre las tostadas.', 'Termina con el aceite de oliva y sirve.'],
+    calories: 280,
+    protein: 8,
+    carbs: 39,
+    fats: 10,
+    tags: ['vegano', 'rápido', 'casero'],
+    description: 'El desayuno mediterráneo de siempre, sencillo y listo en pocos minutos.',
+  },
+  {
+    id: 'yogurt-granola-banana',
+    name: 'Yogur con granola y plátano',
+    mealType: 'Desayuno',
+    time: 5,
+    prepTime: 5,
+    cookTime: 0,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'yogur natural', amount: 180, unit: 'g', category: 'Lácteos' },
+      { name: 'granola', amount: 40, unit: 'g', category: 'Cereales' },
+      { name: 'plátano', amount: 1, unit: 'ud', category: 'Frutas' },
+      { name: 'semillas de calabaza', amount: 10, unit: 'g', category: 'Otros' },
+    ],
+    steps: ['Corta el plátano en rodajas.', 'Sirve el yogur en un cuenco.', 'Añade la granola y el plátano.', 'Termina con las semillas y come al momento.'],
+    calories: 390,
+    protein: 18,
+    carbs: 57,
+    fats: 11,
+    tags: ['vegetariano', 'rápido', 'sin cocinar'],
+    description: 'Un bol cremoso y crujiente para empezar el día sin complicaciones.',
+  },
+  {
+    id: 'banana-oat-pancakes',
+    name: 'Tortitas de avena y plátano',
+    mealType: 'Desayuno',
+    time: 15,
+    prepTime: 5,
+    cookTime: 10,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'avena molida', amount: 60, unit: 'g', category: 'Cereales' },
+      { name: 'plátano', amount: 1, unit: 'ud', category: 'Frutas' },
+      { name: 'huevo', amount: 1, unit: 'ud', category: 'Huevos' },
+      { name: 'leche', amount: 80, unit: 'ml', category: 'Lácteos' },
+    ],
+    steps: ['Tritura el plátano con el huevo, la leche y la avena.', 'Calienta una sartén antiadherente.', 'Cocina pequeñas tortitas 2 minutos por cada lado.', 'Sirve con fruta fresca o yogur.'],
+    calories: 410,
+    protein: 18,
+    carbs: 58,
+    fats: 12,
+    tags: ['vegetariano', 'casero', 'alto en proteína'],
+    description: 'Tortitas suaves con ingredientes básicos y sin azúcar añadido.',
+  },
+  {
+    id: 'mushroom-omelette-toast',
+    name: 'Tortilla francesa de champiñones con pan',
+    mealType: 'Desayuno',
+    time: 15,
+    prepTime: 5,
+    cookTime: 10,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'huevos', amount: 2, unit: 'ud', category: 'Huevos' },
+      { name: 'champiñones', amount: 100, unit: 'g', category: 'Verduras' },
+      { name: 'pan integral', amount: 1, unit: 'rebanada', category: 'Cereales' },
+      { name: 'queso fresco', amount: 30, unit: 'g', category: 'Lácteos' },
+    ],
+    steps: ['Saltea los champiñones laminados.', 'Bate los huevos y cuájalos en la sartén.', 'Añade el queso fresco y dobla la tortilla.', 'Sirve con el pan integral tostado.'],
+    calories: 350,
+    protein: 25,
+    carbs: 24,
+    fats: 18,
+    tags: ['vegetariano', 'alto en proteína', 'rápido'],
+    description: 'Una tortilla jugosa y salada para quienes prefieren desayunar fuerte.',
+  },
+  {
+    id: 'breakfast-burrito',
+    name: 'Burrito de desayuno con huevo y aguacate',
+    mealType: 'Desayuno',
+    time: 15,
+    prepTime: 7,
+    cookTime: 8,
+    difficulty: 'Fácil',
+    image: imageAssets.quinoa,
+    ingredients: [
+      { name: 'tortilla de trigo integral', amount: 1, unit: 'ud', category: 'Cereales' },
+      { name: 'huevos', amount: 2, unit: 'ud', category: 'Huevos' },
+      { name: 'aguacate', amount: 60, unit: 'g', category: 'Frutas' },
+      { name: 'tomate', amount: 60, unit: 'g', category: 'Verduras' },
+      { name: 'queso rallado', amount: 20, unit: 'g', category: 'Lácteos' },
+    ],
+    steps: ['Bate y cocina los huevos a fuego medio.', 'Calienta la tortilla.', 'Rellénala con el huevo, el aguacate, el tomate y el queso.', 'Cierra los laterales, enrolla y sirve.'],
+    calories: 490,
+    protein: 24,
+    carbs: 41,
+    fats: 25,
+    tags: ['vegetariano', 'casero', 'alto en proteína'],
+    description: 'Un desayuno completo y fácil de llevar cuando tienes una mañana larga.',
+  },
+  {
+    id: 'chia-mango-pudding',
+    name: 'Pudding de chía y mango',
+    mealType: 'Desayuno',
+    time: 8,
+    prepTime: 8,
+    cookTime: 0,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'bebida de almendras', amount: 200, unit: 'ml', category: 'Otros' },
+      { name: 'semillas de chía', amount: 25, unit: 'g', category: 'Otros' },
+      { name: 'mango', amount: 120, unit: 'g', category: 'Frutas' },
+      { name: 'copos de avena', amount: 25, unit: 'g', category: 'Cereales' },
+    ],
+    steps: ['Mezcla la bebida vegetal con la chía y la avena.', 'Deja reposar en la nevera al menos 4 horas.', 'Corta el mango en dados.', 'Sirve el pudding con el mango por encima.'],
+    calories: 330,
+    protein: 9,
+    carbs: 48,
+    fats: 12,
+    tags: ['vegano', 'sin cocinar', 'batch cooking'],
+    description: 'Un desayuno fresco que puedes dejar preparado la noche anterior.',
+  },
+  {
+    id: 'turkey-breakfast-sandwich',
+    name: 'Sándwich de pavo, queso y tomate',
+    mealType: 'Desayuno',
+    time: 10,
+    prepTime: 5,
+    cookTime: 5,
+    difficulty: 'Fácil',
+    image: imageAssets.chicken,
+    ingredients: [
+      { name: 'pan integral', amount: 2, unit: 'rebanadas', category: 'Cereales' },
+      { name: 'pavo loncheado', amount: 80, unit: 'g', category: 'Carne' },
+      { name: 'queso', amount: 25, unit: 'g', category: 'Lácteos' },
+      { name: 'tomate', amount: 60, unit: 'g', category: 'Verduras' },
+    ],
+    steps: ['Coloca el pavo, el queso y el tomate sobre el pan.', 'Cierra el sándwich.', 'Tuéstalo en una sartén o sandwichera hasta que el queso se funda.', 'Corta por la mitad y sirve.'],
+    calories: 360,
+    protein: 28,
+    carbs: 34,
+    fats: 13,
+    tags: ['alto en proteína', 'rápido', 'casero'],
+    description: 'Un sándwich caliente, sencillo y saciante para las mañanas con prisa.',
+  },
+  {
+    id: 'baked-apple-oatmeal',
+    name: 'Avena al horno con manzana y canela',
+    mealType: 'Desayuno',
+    time: 30,
+    prepTime: 8,
+    cookTime: 22,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'avena', amount: 60, unit: 'g', category: 'Cereales' },
+      { name: 'manzana', amount: 1, unit: 'ud', category: 'Frutas' },
+      { name: 'leche', amount: 180, unit: 'ml', category: 'Lácteos' },
+      { name: 'huevo', amount: 1, unit: 'ud', category: 'Huevos' },
+      { name: 'canela', amount: 1, unit: 'pizca', category: 'Otros' },
+    ],
+    steps: ['Mezcla la avena con la leche, el huevo y la canela.', 'Añade la manzana en dados.', 'Pasa la mezcla a un recipiente pequeño.', 'Hornea durante 20-22 minutos y sirve templada.'],
+    calories: 420,
+    protein: 18,
+    carbs: 61,
+    fats: 12,
+    tags: ['vegetariano', 'casero', 'batch cooking'],
+    description: 'Una avena templada con textura de bizcocho y sabor a manzana asada.',
+  },
+  {
+    id: 'ricotta-pear-toast',
+    name: 'Tostada de ricotta, pera y miel',
+    mealType: 'Desayuno',
+    time: 8,
+    prepTime: 8,
+    cookTime: 0,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'pan integral', amount: 2, unit: 'rebanadas', category: 'Cereales' },
+      { name: 'ricotta', amount: 80, unit: 'g', category: 'Lácteos' },
+      { name: 'pera', amount: 1, unit: 'ud', category: 'Frutas' },
+      { name: 'miel', amount: 8, unit: 'g', category: 'Otros' },
+    ],
+    steps: ['Tuesta el pan.', 'Extiende la ricotta.', 'Corta la pera en láminas y colócala encima.', 'Termina con un hilo de miel.'],
+    calories: 340,
+    protein: 14,
+    carbs: 51,
+    fats: 10,
+    tags: ['vegetariano', 'rápido'],
+    description: 'Una tostada cremosa y dulce con fruta fresca.',
+  },
+  {
+    id: 'banana-oat-smoothie',
+    name: 'Batido de plátano, avena y cacao',
+    mealType: 'Desayuno',
+    time: 5,
+    prepTime: 5,
+    cookTime: 0,
+    difficulty: 'Fácil',
+    image: imageAssets.oats,
+    ingredients: [
+      { name: 'plátano', amount: 1, unit: 'ud', category: 'Frutas' },
+      { name: 'leche', amount: 250, unit: 'ml', category: 'Lácteos' },
+      { name: 'avena', amount: 35, unit: 'g', category: 'Cereales' },
+      { name: 'cacao puro', amount: 5, unit: 'g', category: 'Otros' },
+    ],
+    steps: ['Pela el plátano.', 'Añade todos los ingredientes a la batidora.', 'Tritura hasta que quede cremoso.', 'Sirve frío.'],
+    calories: 360,
+    protein: 16,
+    carbs: 60,
+    fats: 8,
+    tags: ['vegetariano', 'rápido', 'sin cocinar'],
+    description: 'Un batido rápido con avena para desayunar cuando no te apetece cocinar.',
+  },
 ];
 
 const storageKey = '@menufit/state-v1';
@@ -819,6 +1051,7 @@ type MenuFitContextValue = {
   history: MenuHistory[];
   completeSetup: (values: Partial<Preferences>) => void;
   updatePreferences: (values: Partial<Preferences>) => void;
+  clearCurrentMenu: () => void;
   setShoppingDays: (days: number) => void;
   generateMenu: (days?: number) => void;
   regenerateDay: (day: string) => void;
@@ -976,10 +1209,15 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
 
   const updatePreferences = (values: Partial<Preferences>) => {
     const nextPreferences = { ...preferences, ...values };
-    const needsNewMenu = ['diet', 'cookTime', 'allergies', 'excluded', 'disliked'].some((key) => key in values);
+    const needsNewMenu = ['diet', 'cookTime', 'allergies', 'excluded', 'disliked', 'mealsPerDay'].some((key) => key in values);
     const nextMenu = needsNewMenu ? createMenu(nextPreferences) : menu;
     const nextShopping = aggregateShopping(nextMenu, nextPreferences, shopping);
     saveState(nextPreferences, nextMenu, nextShopping);
+  };
+
+  const clearCurrentMenu = () => {
+    const customItems = shopping.filter((item) => item.id.startsWith('custom-'));
+    saveState(preferences, [], customItems);
   };
 
   const setShoppingDays = (days: number) => {
@@ -991,11 +1229,12 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
   };
 
   const generateMenu = (days = preferences.days) => {
-    const nextPreferences = { ...preferences, days: Math.min(30, Math.max(1, days)) };
+    const nextDays = Math.min(30, Math.max(1, days));
+    const nextPreferences = { ...preferences, days: nextDays, shoppingDays: Math.min(preferences.shoppingDays, nextDays) };
     const nextMenu = createMenu(nextPreferences);
     const entry: MenuHistory = { id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, createdAt: new Date().toISOString(), label: `${nextPreferences.days} días · ${goalLabels[nextPreferences.goal]}`, slots: nextMenu };
     const nextHistory = [entry, ...history].slice(0, 10);
-    saveState(nextPreferences, nextMenu, aggregateShopping(nextMenu, nextPreferences), favoriteRecipes, nextHistory);
+    saveState(nextPreferences, nextMenu, aggregateShopping(nextMenu, nextPreferences, shopping), favoriteRecipes, nextHistory);
   };
 
   const regenerateDay = (day: string) => {
@@ -1057,6 +1296,7 @@ export function MenuFitProvider({ children }: PropsWithChildren) {
     history,
     completeSetup,
     updatePreferences,
+    clearCurrentMenu,
     setShoppingDays,
     generateMenu,
     regenerateDay,
